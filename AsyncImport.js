@@ -49,7 +49,8 @@ export default class AsyncImport extends Component {
   state = { loading: true, asyncModule: null, err: false }
 
   componentDidMount() {
-    const { module: asyncModule } = this.props
+    const { module: asyncModule, ...props } = this.props
+    console.warn('other props: ', props)
     if (asyncModule) {
       asyncModule().then(res => {
         console.log(res)
@@ -72,7 +73,7 @@ export default class AsyncImport extends Component {
     const { loading, asyncModule: AsyncModule, err } = this.state
     return (
       err ? <ErrorReport err={err} />
-        : loading ? <Loading /> : <AsyncModule />
+        : loading ? <Loading /> : <AsyncModule {...this.props} />
     )
   }
 }
