@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      background-color: #555;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      overflow: hidden;
+    }
+
+    #window {
+      /* suppose one item's height is 100px */
+      height: 100px;
+      width: 300px;
+      border: 1px solid beige;
+      overflow: hidden scroll;
+    }
+
+    #itemWrap {
+      width: 100%;
+      /* we suppose there are 100 items */
+      height: calc(100px * 100);
+    }
+
+    .item {
+      width: 100%;
+      height: 100px;
+      text-align: center;
+      line-height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="window">
+    <div id="itemWrap">
+      <div class="item" id="item0">0</div>
+      <div class="item" id="item1">1</div>
+    </div>
+  </div>
+  <script>
+    const itemHeight = 100;
+    const win = document.getElementById("window");
+    const itemWrap = document.getElementById("itemWrap");
+    const item0 = document.getElementById("item0");
+    const item1 = document.getElementById("item1");
+    const throttle = (fun) => {
+      let onProcessing = false;
+      return (e) => {
+        if (onProcessing === false) {
+          onProcessing = true
+          window.requestAnimationFrame(() => {
+            fun(e)
+            onProcessing = false;
+          })
+        }
+      }
+    }
+    const scrollCallback = throttle(e => {
+      const { scrollTop } = e.target;
+      // scroll count
+      const count = Math.floor(scrollTop / 100);
+      // according to count dynamic update item content
+      item0.innerHTML = count;
+      item1.innerHTML = count + 1;
+      itemWrap.style.transform = `translateY(${count *
+        100 +
+        "px"})`;
+    })
+    win.addEventListener("scroll", scrollCallback);
+  </script>
+</body>
+
+</html>
