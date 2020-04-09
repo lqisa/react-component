@@ -29,6 +29,8 @@
       width: 100%;
       /* we suppose there are 100 items */
       height: calc(100px * 100);
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .item {
@@ -72,9 +74,7 @@
       // according to count dynamic update item content
       item0.innerHTML = count;
       item1.innerHTML = count + 1;
-      itemWrap.style.transform = `translateY(${count *
-        100 +
-        "px"})`;
+      itemWrap.style.paddingTop = count * 100 + "px";
     })
     win.addEventListener("scroll", scrollCallback);
   </script>
