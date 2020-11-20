@@ -38,11 +38,12 @@ function ScreenColorPicker() {
     ctx.beginPath();
     ctx.strokeStyle = "black";
     ctx.lineWidth = 1;
-    for (let x = 0.5 * stepX; x <= magnifierWidth; x += stepX) {
+    const initRatio = magnifierScaleRatio % 2 === 0 ? 0.5 : 1;
+    for (let x = initRatio * stepX; x <= magnifierWidth; x += stepX) {
       ctx.moveTo(x, 0);
       ctx.lineTo(x, height);
     }
-    for (let y = 0.5 * stepY; y <= magnifierHeight; y += stepY) {
+    for (let y = initRatio * stepY; y <= magnifierHeight; y += stepY) {
       ctx.moveTo(0, y);
       ctx.lineTo(width, y);
     }
@@ -50,8 +51,9 @@ function ScreenColorPicker() {
 
     ctx.beginPath();
     ctx.strokeStyle = "red";
-    const centerSquareStartX = ((stepX - 1) / 2) * stepX;
-    const centerSquareStartY = ((stepY - 1) / 2) * stepY;
+    debugger;
+    const centerSquareStartX = ((magnifierScaleRatio - 1) / 2) * stepX;
+    const centerSquareStartY = ((magnifierScaleRatio - 1) / 2) * stepY;
     ctx.moveTo(centerSquareStartX, centerSquareStartY);
     ctx.lineTo(centerSquareStartX + stepX, centerSquareStartY);
     ctx.lineTo(centerSquareStartX + stepX, centerSquareStartY + stepY);
@@ -158,6 +160,7 @@ function ScreenColorPicker() {
             .data as Uint8ClampedArray
         );
         console.log("rgba:", r, g, b, a);
+        document.body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
       }
     }
   };
